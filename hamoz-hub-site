@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HM HUB Scripts</title>
+    <!-- استيراد خط عربي من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Changa', sans-serif; /* استخدام الخط العربي */
+        }
+
+        .text {
+            position: relative;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            z-index: 2;
+            animation: fadeIn 2s ease-in-out, floatText 3s ease-in-out infinite;
+            transition: opacity 0.5s ease; /* إضافة انتقال لإخفاء النص */
+        }
+
+        .light {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+            border-radius: 50%;
+            animation: rotateLight 10s linear infinite;
+            z-index: 1;
+        }
+
+        .button-container {
+            margin-top: 20px; /* مسافة بين النص والزر */
+            text-align: center;
+        }
+
+        .button-container p {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 10px; /* مسافة بين النص والزر */
+        }
+
+        .button-container button {
+            background-color: #4CAF50; /* لون خلفية الزر */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-family: 'Changa', sans-serif;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .button-container button:hover {
+            background-color: #45a049; /* لون خلفية الزر عند التمرير */
+        }
+
+        .green-boxes {
+            display: flex; /* عرض الخانات الخضراء */
+            margin-top: 20px;
+            gap: 10px; /* مسافة بين الخانات */
+        }
+
+        .green-box {
+            width: 50px;
+            height: 50px;
+            background-color: green;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: white;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .countdown {
+            display: none; /* إخفاء العد التنازلي بشكل افتراضي */
+            color: white;
+            font-size: 2rem;
+            margin-top: 20px;
+        }
+
+        /* أنيميشن لعلامة الصح */
+        @keyframes checkmark {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* أنيميشن لدوران الضوء */
+        @keyframes rotateLight {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg) translateX(150px) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg) translateX(150px) rotate(-360deg);
+            }
+        }
+
+        /* أنيميشن لظهور النص */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* أنيميشن لتحريك النص بلطف */
+        @keyframes floatText {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="text" id="mainText">الموقع الرسمي لسكربتات HM HUB - روبلوكس</div>
+    <div class="light"></div>
+
+    <div class="button-container" id="buttonContainer">
+        <p>اضغط على الزر أدناه للحصول على السكربت:</p>
+        <button onclick="getScript()">الحصول على سكربت</button>
+    </div>
+
+    <div class="countdown" id="countdown">انتظر: 10</div>
+
+    <div class="green-boxes" id="greenBoxes">
+        <div class="green-box" id="box1">10</div>
+        <div class="green-box" id="box2">20</div>
+        <div class="green-box" id="box3">30</div>
+    </div>
+
+    <script>
+        // وظيفة الزر
+        function getScript() {
+            // إخفاء النص "الموقع الرسمي لسكربتات HM HUB - روبلوكس"
+            const mainText = document.getElementById("mainText");
+            mainText.style.opacity = "0"; // إخفاء النص تدريجيًا
+            setTimeout(() => {
+                mainText.style.display = "none"; // إخفاء النص تمامًا بعد الانتقال
+            }, 500); // الانتظار حتى ينتهي الانتقال
+
+            // إظهار العد التنازلي
+            const countdownElement = document.getElementById("countdown");
+            countdownElement.style.display = "block";
+
+            // بدء العد التنازلي الأول
+            startCountdown(10, document.getElementById("box1"), () => {
+                // إظهار علامة الصح في الخانة الأولى
+                showCheckmark(document.getElementById("box1"), () => {
+                    // بدء العد التنازلي الثاني
+                    startCountdown(20, document.getElementById("box2"), () => {
+                        // إظهار علامة الصح في الخانة الثانية
+                        showCheckmark(document.getElementById("box2"), () => {
+                            // بدء العد التنازلي الثالث
+                            startCountdown(30, document.getElementById("box3"), () => {
+                                // إظهار علامة الصح في الخانة الثالثة
+                                showCheckmark(document.getElementById("box3"), () => {
+                                    // تغيير لون زر "الحصول على مفتاح" إلى أخضر مضيئ
+                                    const getKeyButton = document.querySelector("#buttonContainer button");
+                                    getKeyButton.style.backgroundColor = "#00ff00";
+                                    getKeyButton.style.boxShadow = "0 0 10px #00ff00, 0 0 20px #00ff00";
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+
+            // إظهار زر "الحصول على مفتاح"
+            const buttonContainer = document.getElementById("buttonContainer");
+            buttonContainer.innerHTML = `
+                <p>اضغط على الزر أدناه للحصول على المفتاح:</p>
+                <button onclick="getKey()">الحصول على مفتاح</button>
+            `;
+
+            // إظهار الخانات الخضراء بعد إخفاء النص
+            setTimeout(() => {
+                document.getElementById("greenBoxes").style.display = "flex";
+            }, 500); // تأخير 500 مللي ثانية
+        }
+
+        // بدء العد التنازلي
+        function startCountdown(seconds, box, callback) {
+            let remainingSeconds = seconds;
+            const interval = setInterval(() => {
+                box.textContent = remainingSeconds;
+                remainingSeconds--;
+
+                if (remainingSeconds < 0) {
+                    clearInterval(interval);
+                    if (callback) callback();
+                }
+            }, 1000); // تحديث كل ثانية
+        }
+
+        // إظهار علامة الصح مع أنيميشن
+        function showCheckmark(box, callback) {
+            box.textContent = "✔️";
+            box.style.animation = "checkmark 0.5s ease forwards";
+            if (callback) callback();
+        }
+
+        // وظيفة زر "الحصول على مفتاح"
+        function getKey() {
+            alert("تم النقر على زر الحصول على المفتاح!");
+            // يمكنك إضافة وظيفة إضافية هنا
+        }
+    </script>
+</body>
+</html>
